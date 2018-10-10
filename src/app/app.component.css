@@ -1,0 +1,36 @@
+h1 {
+    background-color: #387ef5;
+    color: #FFF;
+    margin: 0;
+    padding: 20px;
+    font-family: Helvetica;
+    font-weight: normal;
+}
+.custom {
+    height: 50px;;
+}
+mat-row {
+    padding: 10px;
+}
+.custom-input {
+    border: none;
+    font-size: inherit;
+    width: auto;
+    height: 48px;
+}
+.custom-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.submit { 
+    border: 2px solid green;
+    padding: 3px 4px;
+    border-radius: 20px;
+    margin-right: 10px;
+}
+.delete {
+    border: 2px solid red;
+    padding: 3px 4px;
+    border-radius: 20px;
+}
