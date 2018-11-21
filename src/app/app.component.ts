@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatSnackBar } from '@angular/material';
 
@@ -11,49 +10,39 @@ import { DataService } from './data.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'User Management system';
-  users;
-  displayedColumns: string[] = ['picture', 'firstname', 'lastname', 'action'];
+  title = 'Task Manager';
 
-  constructor(private dataservice: DataService, private dialog: MatDialog, public snackBar: MatSnackBar) {
-    this.getUsers();
+  tasks: { 'id': number, 'task': string}[];
+
+  constructor(private dialog: MatDialog, public snackBar: MatSnackBar, private data: DataService) {
+    this.getTasks();
   }
 
-  getUsers() {
-    this.dataservice.getUsers().subscribe((users: any) => {
-      this.users = new MatTableDataSource(users);
-    }, error => {
-      this.errorHandle();
-    });
+  getTasks() {
+    this.tasks = this.data.getTasks();
   }
 
-  updateUser(user) {
-    this.dataservice.putUser(user).subscribe(response => {
-      console.log(response);
-    }, error => {
-      this.errorHandle();
-    });
+  updateTask(task) {
+    this.data.updateTask(task);
+    this.getTasks();
   }
 
-  deleteUser(id) {
-    this.dataservice.deleteUser(id).subscribe(response => {
-      this.getUsers();
-    }, error => {
-      this.errorHandle();
-    });
+  deleteTask(task) {
+    this.data.deleteTask(task);
+    this.getTasks();
   }
 
-  addUser() {
-    const dialogRef = this.dialog.open(AppCreateUserComponent, {
+  addTask() {
+    const dialogRef = this.dialog.open(AppAddTaskComponent, {
       width: '250px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.getUsers();
+      this.getTasks();
     });
   }
 
-  errorHandle () {
+  errorHandle() {
     this.snackBar.openFromComponent(ErrorHandleComponent, {
       duration: 500,
     });
@@ -61,21 +50,15 @@ export class AppComponent {
 }
 
 @Component({
-  selector: 'app-create-user',
-  templateUrl: 'app-create-user.html',
+  selector: 'app-add-task',
+  templateUrl: 'app-add-task.html',
 })
-export class AppCreateUserComponent {
+export class AppAddTaskComponent {
 
-  user = {
-    name: {
-      first: '',
-      last: ''
-    },
-    picture: ''
-  };
+  task = { 'id': 0, 'task': '' };
 
   constructor(
-    public dialogRef: MatDialogRef<AppCreateUserComponent>,
+    public dialogRef: MatDialogRef<AppAddTaskComponent>,
     private dataservice: DataService,
     public snackBar: MatSnackBar
     // @Inject(MAT_DIALOG_DATA) public data: DialogData
@@ -85,16 +68,17 @@ export class AppCreateUserComponent {
     this.dialogRef.close();
   }
 
-  addUser () {
-    this.dataservice.postUser(this.user).subscribe(response => {
-      console.log(response);
-      this.dialogRef.close();
-    }, error => {
+  addTask() {
+    if (!this.task.task) {
       this.errorHandle();
-    });
+      this.dialogRef.close();
+      return;
+    }
+    this.dataservice.postTask(this.task);
+    this.dialogRef.close();
   }
 
-  errorHandle () {
+  errorHandle() {
     this.snackBar.openFromComponent(ErrorHandleComponent, {
       duration: 500,
     });
@@ -111,4 +95,4 @@ export class AppCreateUserComponent {
     }
   `],
 })
-export class ErrorHandleComponent {}
+export class ErrorHandleComponent { }

@@ -8,16 +8,39 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  getUsers () {
-    return this.http.get('http://localhost:8181/users');
+  id = 4;
+
+  public tasks = [
+    { 'id': 1, 'task': 'First task'},
+    { 'id': 2, 'task': 'Second task'},
+    { 'id': 3, 'task': 'Third task'}
+  ];
+
+  postTask (task) {
+    task.id = this.id;
+    this.tasks.push(task);
+    this.id += 1;
   }
-  putUser (user) {
-    return this.http.put('http://localhost:8181/users/' + user.id, user);
+
+  getTasks () {
+    return this.tasks;
   }
-  postUser (user) {
-    return this.http.post('http://localhost:8181/users/', user);
+
+  updateTask (task) {
+    this.tasks.filter((t) => {
+      if (task.id === t.id) {
+        t.task = task.task;
+      }
+    });
   }
-  deleteUser (id) {
-    return this.http.delete('http://localhost:8181/users/' + id);
+
+  deleteTask (task) {
+    let index: number;
+    this.tasks.filter((t, i) => {
+      if (task.id === t.id) {
+        index = i;
+      }
+    });
+    this.tasks.splice(index, 1);
   }
 }

@@ -6,31 +6,25 @@ h1 {
     font-family: Helvetica;
     font-weight: normal;
 }
-.custom {
-    height: 50px;;
+.ngx-dnd-container:nth-child(odd) {
+    background-color: #eee;
+    width: 60%;
+    margin: auto;
 }
-mat-row {
-    padding: 10px;
+.ngx-dnd-container {
+    border: 2px solid #ddd;
 }
-.custom-input {
-    border: none;
-    font-size: inherit;
-    width: auto;
-    height: 48px;
+.ngx-dnd-item {
+    background-color: #ddd;
+    border: 1px solid #ccc;
 }
-.custom-button {
-    border: none;
-    background: none;
+.ngx-dnd-item mat-icon {
+    color: #f00; 
+    float: right; 
     cursor: pointer;
 }
-.submit { 
-    border: 2px solid green;
-    padding: 3px 4px;
-    border-radius: 20px;
-    margin-right: 10px;
-}
-.delete {
-    border: 2px solid red;
-    padding: 3px 4px;
-    border-radius: 20px;
+input {
+    border: none;
+    background: none;
+    font-size: inherit;
 }
